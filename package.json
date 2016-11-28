@@ -1,0 +1,26 @@
+{
+  "name": "blogv2",
+  "version": "1.0.0",
+  "description": "blog version 2",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RookieDouby/blogv2.git"
+  },
+  "keywords": [
+    "node.js",
+    "mongodb"
+  ],
+  "author": "sam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RookieDouby/blogv2/issues"
+  },
+  "homepage": "https://github.com/RookieDouby/blogv2#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
