@@ -1,15 +1,36 @@
 var path = require('path');
 var express = require('express');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
+var config = require('config-lite');
+var routes = require('./routes');
+var pkg = require('./package');
+
 var app = express();
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/users');
 
 app.set('views',path.join(__dirname, 'views'));//set directory of tempalte files
 app.set('view engine', 'ejs');
 
-app.use('/',indexRouter);
-app.use('/users',userRouter);
+//set static directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(3000,function() {
-    console.log("Server running at port: 3000");
+//session middleware
+app.use(session({
+    name: config.session.key, // 设置cookie中保存session id的字段名字
+    secret: config.session.secret,//通过secret计算hash值保存在cookie中，使产生的signedCookie防篡改
+    cookie: {
+        maxAge: config.session.maxAge //过期时间
+    },
+    store: new MongoStore({ //将session 存到mongodb
+        url: config.mongodb
+    })
+}));
+//use flash middleware
+app.use(flash());
+
+routes(app);
+
+app.listen(config.port,function() {
+    console.log(`${pkg.name} running at port: ${config.port}`);
 });
