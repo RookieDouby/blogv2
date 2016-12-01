@@ -29,6 +29,18 @@ app.use(session({
 //use flash middleware
 app.use(flash());
 
+//set global CONST
+app.locals.blog = {
+    title: pkg.name,
+    description: pkg.description
+};
+//add necessary variables
+app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
+    res.locals.success = req.flash('success').toString(),
+    res.locals.error = req.flash('error').toString()
+    next();
+});
 routes(app);
 
 app.listen(config.port,function() {
